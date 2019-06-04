@@ -1,12 +1,11 @@
 const fs = require('fs'),
     http = require('http'),
-    async = require('async'),
-        filepath = process.argv[2];
+    asynclib = require('async')
 
 
-async.waterfall([
-    readFileContents(filepath, callback),
-    performUrlGetRequest(url, callback)
+asynclib.waterfall([
+    readFileContents,
+    performUrlGetRequest
 ], runAsyncWaterfallCallback);
 
 
@@ -18,8 +17,10 @@ function runAsyncWaterfallCallback(err, responseBody) {
     console.log(responseBody);
 }
 
-function readFileContents(filepath, callback) {
-    const url = '';
+function readFileContents(callback) {
+    const filepath = process.argv[2];
+
+    let url = '';
     try {
         url = fs.readFileSync(filepath, 'utf8');
     } catch (e) {
@@ -37,7 +38,7 @@ function performUrlGetRequest(url, callback) {
             rawData += chunk;
         })
         response.on('end', () => {
-            callback(rawData);
+            callback(null, rawData);
         })
     }).on('error', (e) => {
         callback(e)

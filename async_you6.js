@@ -1,6 +1,6 @@
 const http = require('http'),
     async = require('async'),
-    url = new URL(process.argv[2]);
+        url = new URL(process.argv[2]);
 
 
 async.reduce(['one', 'two', 'three'], 0, function (acc, getSequence, callback) {
